@@ -25,15 +25,15 @@ build: build-raspberry-pi
 # Code quality
 fmt:
 	@echo "Formatting code..."
-	go fmt ./...
+	go fmt ./devices/raspberry-pi/...
 
 vet:
 	@echo "Running go vet..."
-	go vet ./...
+	go vet ./devices/raspberry-pi/...
 
 lint:
 	@echo "Running golangci-lint..."
-	golangci-lint run
+	golangci-lint run ./devices/raspberry-pi/...
 
 # Utility commands
 clean:
