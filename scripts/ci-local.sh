@@ -10,33 +10,39 @@ echo "================================"
 
 # 1. Format check
 echo "📝 Checking code formatting..."
-if ! go fmt ./devices/raspberry-pi/... | grep -q .; then
+cd devices/raspberry-pi
+if ! go fmt ./... | grep -q .; then
     echo "✅ Code is properly formatted"
 else
-    echo "❌ Code formatting issues found. Run 'go fmt ./devices/raspberry-pi/...' to fix."
+    echo "❌ Code formatting issues found. Run 'cd devices/raspberry-pi && go fmt ./...' to fix."
     exit 1
 fi
+cd ../..
 
 # 2. Vet check
 echo ""
 echo "🔍 Running go vet..."
-if go vet ./devices/raspberry-pi/...; then
+cd devices/raspberry-pi
+if go vet ./...; then
     echo "✅ go vet passed"
 else
     echo "❌ go vet failed"
     exit 1
 fi
+cd ../..
 
 # 3. Lint check
 echo ""
 echo "🧹 Running golangci-lint..."
 if command -v golangci-lint >/dev/null 2>&1; then
-    if golangci-lint run ./devices/raspberry-pi/...; then
+    cd devices/raspberry-pi
+    if golangci-lint run ./...; then
         echo "✅ golangci-lint passed"
     else
         echo "❌ golangci-lint failed"
         exit 1
     fi
+    cd ../..
 else
     echo "⚠️  golangci-lint not installed. Install it with:"
     echo "    go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
@@ -45,17 +51,21 @@ fi
 # 4. Tests with race detection
 echo ""
 echo "🧪 Running tests with race detection..."
-if go test -race -v ./devices/raspberry-pi/...; then
+cd devices/raspberry-pi
+if go test -race -v ./...; then
     echo "✅ Tests passed"
 else
     echo "❌ Tests failed"
     exit 1
 fi
+cd ../..
 
 # 5. Coverage check
 echo ""
 echo "📊 Running coverage analysis..."
-if go test -coverprofile=coverage.out ./devices/raspberry-pi/...; then
+cd devices/raspberry-pi
+if go test -coverprofile=../../coverage.out ./...; then
+    cd ../..
     coverage=$(go tool cover -func=coverage.out | tail -1 | awk '{print $3}')
     echo "✅ Coverage: $coverage"
     

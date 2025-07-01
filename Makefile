@@ -3,17 +3,17 @@
 # Test commands
 test:
 	@echo "Running tests..."
-	go test -v ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && go test -v ./...
 
 test-coverage:
 	@echo "Running tests with coverage..."
-	go test -v -coverprofile=coverage.out ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && go test -v -coverprofile=../../coverage.out ./...
 	go tool cover -html=coverage.out -o coverage.html
 	@echo "Coverage report generated: coverage.html"
 
 test-ci:
 	@echo "Running CI tests..."
-	go test -v -race -coverprofile=coverage.out -covermode=atomic ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && go test -v -race -coverprofile=../../coverage.out -covermode=atomic ./...
 
 # Build commands
 build-raspberry-pi:
@@ -25,15 +25,15 @@ build: build-raspberry-pi
 # Code quality
 fmt:
 	@echo "Formatting code..."
-	go fmt ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && go fmt ./...
 
 vet:
 	@echo "Running go vet..."
-	go vet ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && go vet ./...
 
 lint:
 	@echo "Running golangci-lint..."
-	golangci-lint run ./devices/raspberry-pi/...
+	cd devices/raspberry-pi && golangci-lint run ./...
 
 # Utility commands
 clean:
@@ -43,7 +43,7 @@ clean:
 
 deps:
 	@echo "Installing dependencies..."
-	go mod download
+	cd devices/raspberry-pi && go mod download
 	go work sync
 
 # Setup commands

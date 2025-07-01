@@ -1,5 +1,3 @@
 go 1.21
 
-use (
-	./devices/raspberry-pi
-)
+use ./devices/raspberry-pi
