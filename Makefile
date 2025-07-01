@@ -44,7 +44,7 @@ clean:
 deps:
 	@echo "Installing dependencies..."
 	cd devices/raspberry-pi && go mod download
-	go work sync
+	@if [ -f go.work ]; then go work sync; else echo "No go.work file found, skipping work sync"; fi
 
 # Setup commands
 setup: deps
